@@ -175,13 +175,16 @@ def fand(e = None):
                 start = pos + "+1c"
             destroy()
             try:
-               finds = []
                 for ii in a[s:]:
-                    if len(finds) == 2:
-                        text.tag_add("tag%s.%s"%finds[0],'%s.%s'%finds[0],'%s.%s'%finds[1])
-                        text.tag_config("tag%s.%s"%finds[0], background="yellow", foreground="red")
-                        finds = []
-                    finds.append(ii)
+                    print(ii)
+                    print('%s.%s'%ii,'%s.%s'%(ii[0],ii[1]+len(i.get())))
+                    text.tag_add(
+                    "tag%s.%s"%ii,
+                    '%s.%s'%ii,
+                    '%s.%s'%(ii[0],ii[1]+len(i.get()))
+                    )
+                    text.tag_config("tag%s.%s"%ii, background="yellow", foreground="red")
+                    
                     
             except Exception as e: 
                 pass
