@@ -90,15 +90,14 @@ def fon(event = None):
     s.grid(row = 0,rowspan=5,column = 1, padx=5, pady=5,sticky= "n" + "s")
 
     List = Listbox(fo,width = 20, yscrollcommand=s.set)
-
     
-
     ff = list(font.families(root))
     ff.sort()
     
     for i in ff:
         List.insert('end',i)
     List.grid(row = 0, rowspan=5,column = 0, padx=5, pady=5) 
+    
     s.config(command=List.yview)
     button_OK = Button(fo,text = '确定', padx=1, pady=1)
     button_ss = Button(fo,text = '试试', padx=1, pady=1)
@@ -176,10 +175,15 @@ def fand(e = None):
                 start = pos + "+1c"
             destroy()
             try:
+               finds = []
                 for ii in a[s:]:
-                    text.tag_add("tag%s.%s"%ii,'%s.%s'%ii)
-                    text.tag_config("tag%s.%s"%ii, background="yellow", foreground="red")
-            except Exception as e:
+                    if len(finds) == 2:
+                        text.tag_add("tag%s.%s"%finds[0],'%s.%s'%finds[0],'%s.%s'%finds[1])
+                        text.tag_config("tag%s.%s"%finds[0], background="yellow", foreground="red")
+                        finds = []
+                    finds.append(ii)
+                    
+            except Exception as e: 
                 pass
         def destroy(event = None):
             global a
