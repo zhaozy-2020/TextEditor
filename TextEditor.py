@@ -24,6 +24,7 @@ file_ = ''
 size = 10
 fontt = ''
 hy = False
+#函数
 def Set(event = None):
     if file_:
         root.title(file_+'*')
@@ -344,7 +345,7 @@ menu.add_command(label="剪切          Ctrl-X", command=cut)
  
 def popup(event):
     menu.post(event.x_root, event.y_root)
-# 绑定鼠标右键
+# 绑定
 root.bind("<Button-3>", popup)
 
 root.bind('<Control-Key-s>',Save)
