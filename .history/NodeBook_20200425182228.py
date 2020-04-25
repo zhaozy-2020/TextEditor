@@ -4,14 +4,13 @@ from tkinter.font import *
 from tkinter.filedialog import askopenfilename, asksaveasfilename
 import subprocess
 
-#窗口
 root = Tk()
 root.title('文本编辑器')
 root.iconbitmap('textEer.ico')
 root.geometry('1000x1000')
 
 notebook =  Notebook(root)
-#词典API
+#词典
 with open('words.txt') as f:
     dicts = f.read().split('\n')
 #图片素材

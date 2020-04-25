@@ -4,17 +4,14 @@ from tkinter.font import *
 from tkinter.filedialog import askopenfilename, asksaveasfilename
 import subprocess
 
-#窗口
 root = Tk()
 root.title('文本编辑器')
 root.iconbitmap('textEer.ico')
 root.geometry('1000x1000')
 
 notebook =  Notebook(root)
-#词典API
 with open('words.txt') as f:
     dicts = f.read().split('\n')
-#图片素材
 saveimage = PhotoImage(file = 'save.gif')
 saveimage2 = PhotoImage(file = 'new.gif')
 saveasimage = PhotoImage(file = 'saveas.gif')
@@ -280,8 +277,7 @@ def New__(name = '',title = 'Untitled'):
     jianc.grid(row = 1,column = 3+5,columnspan = 2)
     clenr.grid(row = 1,column = 5+5)
     ztl()
-#创建页签对象
+    
 New__()
-
 notebook.pack(expand = TRUE,fill = BOTH)
 root.mainloop()

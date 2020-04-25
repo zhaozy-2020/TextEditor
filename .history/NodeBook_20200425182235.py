@@ -4,7 +4,6 @@ from tkinter.font import *
 from tkinter.filedialog import askopenfilename, asksaveasfilename
 import subprocess
 
-#窗口
 root = Tk()
 root.title('文本编辑器')
 root.iconbitmap('textEer.ico')

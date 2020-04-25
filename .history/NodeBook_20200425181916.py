@@ -4,17 +4,14 @@ from tkinter.font import *
 from tkinter.filedialog import askopenfilename, asksaveasfilename
 import subprocess
 
-#窗口
 root = Tk()
 root.title('文本编辑器')
 root.iconbitmap('textEer.ico')
 root.geometry('1000x1000')
 
 notebook =  Notebook(root)
-#词典API
 with open('words.txt') as f:
     dicts = f.read().split('\n')
-#图片素材
 saveimage = PhotoImage(file = 'save.gif')
 saveimage2 = PhotoImage(file = 'new.gif')
 saveasimage = PhotoImage(file = 'saveas.gif')
@@ -209,16 +206,17 @@ def New__(name = '',title = 'Untitled'):
     savebutton = Button(fr,image = saveasimage,compound = TOP,text = 'save as',command = saveasButton)
     savebutton.pack(side = LEFT)
 
+    
     new_file = Button(fr,text = 'new file',command = newfile,image = saveimage2,compound = TOP)
     new_file.pack(side = LEFT)
 
     openfileButton = Button(fr,text = 'open',command = Openfile,image = openimage,compound = TOP)
     openfileButton.pack(side = LEFT)
-
     from tkinter.ttk import Button
     familyVar = StringVar(frame)
     Family = tuple(families(root))
     Family = list(Family)
+    
     combo = Combobox(toll,textvariable = familyVar,value = Family)
     familyVar.set(Family[0])
     combo.bind('<<ComboboxSelected>>',famlis)
@@ -268,7 +266,7 @@ def New__(name = '',title = 'Untitled'):
     popopmenu.add_command(label = '贴粘',command = paste)
     text.bind('<Button-3>',pop)
 
-    #布局
+    
     fr.grid(row = 0,rowspan =2,sticky = W+E+N+S,padx = 5,pady = 2)
     size.grid(row = 0,column = 1+5,sticky = W+E,pady = 2,padx = 5)
     wei.grid(row = 0,column = 0+5,sticky = W+E,pady = 2,padx = 5)
@@ -280,8 +278,6 @@ def New__(name = '',title = 'Untitled'):
     jianc.grid(row = 1,column = 3+5,columnspan = 2)
     clenr.grid(row = 1,column = 5+5)
     ztl()
-#创建页签对象
 New__()
-
 notebook.pack(expand = TRUE,fill = BOTH)
 root.mainloop()
