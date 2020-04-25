@@ -1,11 +1,3 @@
-
-
-
-
-
-
-
-
 from tkinter import *
 import random
 root = Tk()
