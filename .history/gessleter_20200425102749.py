@@ -1,4 +1,12 @@
-from tkinter import *
+
+
+
+
+
+
+
+
+2020from tkinter import *
 import random
 root = Tk()
 root.title('猜数')
