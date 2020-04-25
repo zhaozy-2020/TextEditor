@@ -9,14 +9,14 @@ root.title('文本编辑器')
 # root.iconbitmap('.\wd.ico')
 root.geometry('1000x1000')
 notebook =  Notebook(root)
-with open('E:\\zzy\\api\\words.txt') as f:
+with open('words.txt') as f:
     dicts = f.read().split('\n')
-saveimage = PhotoImage(file = 'E:\\zzy\\ico\\save.gif')
-saveimage2 = PhotoImage(file = 'E:\\zzy\\ico\\new.gif')
-saveasimage = PhotoImage(file = 'E:\\zzy\\ico\\saveas.gif')
-openimage = PhotoImage(file = 'E:\\zzy\\ico\\open.gif')
-upimage = PhotoImage(file = 'E:\\zzy\\ico\\done.gif')
-doneimage = PhotoImage(file = 'E:\\zzy\\ico\\up.gif')
+saveimage = PhotoImage(file = 'save.gif')
+saveimage2 = PhotoImage(file = 'new.gif')
+saveasimage = PhotoImage(file = 'saveas.gif')
+openimage = PhotoImage(file = 'open.gif')
+upimage = PhotoImage(file = 'done.gif')
+doneimage = PhotoImage(file = 'up.gif')
 
 itr = 0
 def New__(name = '',title = 'Untitled'):
@@ -30,6 +30,7 @@ def New__(name = '',title = 'Untitled'):
     toll.pack(side = TOP,fill = X)
     tag = True
     def famlis(evend = None):
+        nonlocal tag
         try:
             f = Font(frame,family = familyVar.get())
             if tag:
