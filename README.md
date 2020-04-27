@@ -1,7 +1,14 @@
-# TextEditor (take note of：the language is Chinese，please English and other languages people read the "readme.txt")
+# TextEditor
 
-此文本编辑器可以打开文件、保存文件和新建文件
-可以随着文件的状态更换名称。
-
-目前可以编写任何基于文本的编程语言及文件，
-运行python语言在验证中。
+此文本编辑器是最新的版本，
+添加的功能如下：
+    1.添加页签功能，能切换不同的文件
+    2.添加了Toolbox，可以很方便的找到工具
+    3.添加了状态栏，可以很清楚的看到光标在第几行第几列（ln = 行，co = 列）
+    4.按钮添加了醒目的图像
+完善了：
+    1.检查的中英文标点问题
+    2.检查的数字问题
+    3.查找的问题
+    4.可读性
+#注：本版本并不稳定，请先不要下载。
