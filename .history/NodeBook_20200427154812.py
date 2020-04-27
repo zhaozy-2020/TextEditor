@@ -86,8 +86,6 @@ def New__(name = '',title = 'Untitled'):
                         (
                             (a
                         )))))
-            if notebook.select() == '':
-                root.destroy()
             zt.after(100,ztl)
         except TclError:
             pass
@@ -222,8 +220,6 @@ def New__(name = '',title = 'Untitled'):
         notebook.forget(notebook.select())
 
 
-    
-
     #toolbox
     fr = Frame(toll)
     from tkinter import Button
@@ -305,7 +301,7 @@ def New__(name = '',title = 'Untitled'):
     F.grid(row = 0,column = 5,columnspan = 2,sticky = W+E,padx = 5,pady = 2)
     jianc.grid(row = 1,column = 4,columnspan = 2)
     clenr.grid(row = 1,column = 6)
-    close.grid(row = 0,column = 7,rowspan = 2,sticky = W+E+N+S)
+    colse
     ztl()
 #创建页签对象
 New__()

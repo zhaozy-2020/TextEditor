@@ -86,8 +86,6 @@ def New__(name = '',title = 'Untitled'):
                         (
                             (a
                         )))))
-            if notebook.select() == '':
-                root.destroy()
             zt.after(100,ztl)
         except TclError:
             pass
@@ -219,10 +217,10 @@ def New__(name = '',title = 'Untitled'):
 
 
     def hide(event = None):
+        if itr == 0:
+            root.withdraw()
         notebook.forget(notebook.select())
 
-
-    
 
     #toolbox
     fr = Frame(toll)

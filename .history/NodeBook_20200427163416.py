@@ -11,6 +11,7 @@ root.iconbitmap('textEer.ico')
 root.geometry('1000x1000')
 
 notebook =  Notebook(root)
+book = Style()
 #词典API
 with open('words.txt') as f:
     dicts = f.read().split('\n')

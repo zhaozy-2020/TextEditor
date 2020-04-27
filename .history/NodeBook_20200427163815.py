@@ -10,7 +10,7 @@ root.title('文本编辑器')
 root.iconbitmap('textEer.ico')
 root.geometry('1000x1000')
 
-notebook =  Notebook(root)
+notebook =  Notebook(root,rel)
 #词典API
 with open('words.txt') as f:
     dicts = f.read().split('\n')

@@ -86,8 +86,6 @@ def New__(name = '',title = 'Untitled'):
                         (
                             (a
                         )))))
-            if notebook.select() == '':
-                root.destroy()
             zt.after(100,ztl)
         except TclError:
             pass
@@ -222,8 +220,6 @@ def New__(name = '',title = 'Untitled'):
         notebook.forget(notebook.select())
 
 
-    
-
     #toolbox
     fr = Frame(toll)
     from tkinter import Button
@@ -299,13 +295,13 @@ def New__(name = '',title = 'Untitled'):
     size.grid(row = 0,column = 2,sticky = W+E,pady = 2,padx = 5)
     wei.grid(row = 0,column = 1,sticky = W+E,pady = 2,padx = 5)
     combo.grid(row = 1,columnspan = 2,column = 1,sticky = W+E,pady = 2)
-    up.grid(row = 0,column = 3,sticky = W+E,padx = 5,pady = 2)
-    dong.grid(row = 1,column = 3,sticky = W+E,padx = 5,pady = 2)
+    up.grid(row = 0,column = 2,sticky = W+E,padx = 5,pady = 2)
+    dong.grid(row = 1,column = 2,sticky = W+E,padx = 5,pady = 2)
     L.grid(row = 0,column = 4,pady = 2)
-    F.grid(row = 0,column = 5,columnspan = 2,sticky = W+E,padx = 5,pady = 2)
-    jianc.grid(row = 1,column = 4,columnspan = 2)
-    clenr.grid(row = 1,column = 6)
-    close.grid(row = 0,column = 7,rowspan = 2,sticky = W+E+N+S)
+    F.grid(row = 0,column = 4+5,columnspan = 2,sticky = W+E,padx = 5,pady = 2)
+    jianc.grid(row = 1,column = 3+5,columnspan = 2)
+    clenr.grid(row = 1,column = 5+5)
+
     ztl()
 #创建页签对象
 New__()

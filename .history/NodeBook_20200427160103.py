@@ -86,8 +86,7 @@ def New__(name = '',title = 'Untitled'):
                         (
                             (a
                         )))))
-            if notebook.select() == '':
-                root.destroy()
+            notebook.select()
             zt.after(100,ztl)
         except TclError:
             pass
