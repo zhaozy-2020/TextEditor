@@ -164,15 +164,12 @@ def New__(name = '',title = 'Untitled'):
         textwords = textwords.split()
         for word in textwords:
             try:
-                if (not getindex(word) and  not getindex(word.lower()) and not int(word)):
+                if (not getindex(word) and  not getindex(word.lower()) and int(word)):
                     pos = text.search(word,start,END)
                     text.tag_add('Error',pos,"%s+%dc"%(pos,len(word)))
                     pos = '%s+%dc'%(pos,len(word))
             except:
-                if (not getindex(word) and  not getindex(word.lower())):
-                    pos = text.search(word,start,END)
-                    text.tag_add('Error',pos,"%s+%dc"%(pos,len(word)))
-                    pos = '%s+%dc'%(pos,len(word))
+                
     
 
     def clean(event = None):

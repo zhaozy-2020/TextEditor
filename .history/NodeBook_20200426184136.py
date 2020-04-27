@@ -159,20 +159,15 @@ def New__(name = '',title = 'Untitled'):
                     '；', '[', ',', '.', '-', 
                     '……', '{', '。', '~', '～']
         start = '1.0'
+        ints = list(range(-1000))
         for i in chars:
 	        textwords = textwords.replace(i,' ')
         textwords = textwords.split()
         for word in textwords:
-            try:
-                if (not getindex(word) and  not getindex(word.lower()) and not int(word)):
-                    pos = text.search(word,start,END)
-                    text.tag_add('Error',pos,"%s+%dc"%(pos,len(word)))
-                    pos = '%s+%dc'%(pos,len(word))
-            except:
-                if (not getindex(word) and  not getindex(word.lower())):
-                    pos = text.search(word,start,END)
-                    text.tag_add('Error',pos,"%s+%dc"%(pos,len(word)))
-                    pos = '%s+%dc'%(pos,len(word))
+            if (not getindex(word) and  not getindex(word.lower())):
+                pos = text.search(word,start,END)
+                text.tag_add('Error',pos,"%s+%dc"%(pos,len(word)))
+                pos = '%s+%dc'%(pos,len(word))
     
 
     def clean(event = None):

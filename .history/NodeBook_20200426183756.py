@@ -147,32 +147,20 @@ def New__(name = '',title = 'Untitled'):
                 return ''
         text.tag_remove('Error','1.0',END)
         textwords = text.get('1.0',END)
-        chars = [']', '·', '：', '》', '>', 
+        startchar = ('(','[','{','\'')
+        endchar = [']', '·', '：', '》', '>', 
                     '_', '"', '`', '，', '”', 
                     '×', '#', '}', '『', '|', 
-                    ':', '<', '（', '?', '】', 
-                    '\\', '!', '？', '(', '【', 
-                    '《', '@', '=', '——', '$', 
-                    '+', '%', '^', '*', ')', 
-                    '&', '！', '’', '、', '/', 
-                    '）', '￥', '』', ';', "'", 
-                    '；', '[', ',', '.', '-', 
-                    '……', '{', '。', '~', '～']
+                    ':', '<', '（', '?', '】', '\\', '!', '？', '(', '【', '《', '@', '=', '——', '$', '+', '%', '^', '*', ')', '&', '！', '’', '、', '/', '）', '￥', '』', ';', "'", '；', '[', ',', '.', '-', '……', '{', '。', '~', '～']
         start = '1.0'
-        for i in chars:
+        for i in endchar+startchar:
 	        textwords = textwords.replace(i,' ')
         textwords = textwords.split()
         for word in textwords:
-            try:
-                if (not getindex(word) and  not getindex(word.lower()) and not int(word)):
-                    pos = text.search(word,start,END)
-                    text.tag_add('Error',pos,"%s+%dc"%(pos,len(word)))
-                    pos = '%s+%dc'%(pos,len(word))
-            except:
-                if (not getindex(word) and  not getindex(word.lower())):
-                    pos = text.search(word,start,END)
-                    text.tag_add('Error',pos,"%s+%dc"%(pos,len(word)))
-                    pos = '%s+%dc'%(pos,len(word))
+            if (not getindex(word) and  not getindex(word.lower())):
+                pos = text.search(word,start,END)
+                text.tag_add('Error',pos,"%s+%dc"%(pos,len(word)))
+                pos = '%s+%dc'%(pos,len(word))
     
 
     def clean(event = None):
@@ -273,7 +261,7 @@ def New__(name = '',title = 'Untitled'):
     text.pack(fill = BOTH,expand = TRUE)
     sb.config(command=text.yview)
 
-    text.tag_config('Error',foreground = 'red')
+    text.tag_config('Error',overstrike = True,foreground = 'red')
     text.tag_configure('found',background = "yellow")
     text.insert(END,name)
 
