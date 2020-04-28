@@ -8,12 +8,16 @@ import subprocess
 root = Tk()
 root.title('文本编辑器')
 root.iconbitmap('textEer.ico')
-root.geometry('1000x1000')
+root.geometry('1200x600+0+0')
 
 notebook =  Notebook(root)
 #词典API
 with open('words.txt') as f:
     dicts = f.read().split('\n')
+import sys
+sys.path.append('E:/zzy/git/TextEditor')
+import words
+dict2=words.word
 #图片素材
 saveimage = PhotoImage(file = 'save.gif')
 saveimage2 = PhotoImage(file = 'new.gif')
@@ -24,12 +28,12 @@ doneimage = PhotoImage(file = 'up.gif')
 
 itr = 0
 def New__(name = '',title = 'Untitled'):
-    global dicts,saveimage,saveimage2,itr,openimage,upimage,doneimage
+    global dicts,saveimage,saveimage2,itr,openimage,upimage,doneimage,dict2
     frame = Frame(root)
     filename = title
     notebook.add(frame,text = filename)
-    notebook.select(notebook.index(itr)) 
-    itr+=1
+    # notebook.select(notebook.index(itr)) 
+    # itr+=1
     toll = Frame(frame,height = 20)
     toll.pack(side = TOP,fill = X)
     tag = True
@@ -38,13 +42,9 @@ def New__(name = '',title = 'Untitled'):
     def famlis(evend = None):
         nonlocal tag
         try:
-            f = Font(frame,family = familyVar.get())
-            if tag:
-                text.tag_add('big',SEL_FIRST,SEL_LAST)
-                text.tag_config('big',font = f)
-                tag = False
-            else:
-                text.tag_config('big',font = f)
+            f = Font(frame,family = familyVar.get(),weight = weightVar.get(),size = sizeVar.get())
+            text.tag_add('big',SEL_FIRST,SEL_LAST)
+            text.tag_config('big',font = f)
         except:
             f = Font(frame,family = familyVar.get())
             text.configure(font = f)
@@ -53,25 +53,25 @@ def New__(name = '',title = 'Untitled'):
     def weight(evend = None):
         
         try:
-            f = Font(frame,weight = weightVar.get())
-            if tag:
-                text.tag_add('bigs',SEL_FIRST,SEL_LAST)
-                text.tag_config('bigs',font = f)
+            if weightVar.get() == ITALIC:
+                f = Font(frame,family = familyVar.get(),slant = weightVar.get(),size = sizeVar.get())
             else:
-                text.tag_config('bigs',font = f)
+                f = Font(frame,family = familyVar.get(),weight = weightVar.get(),size = sizeVar.get())
+            text.tag_add('big',SEL_FIRST,SEL_LAST)
+            text.tag_config('big',font = f)
         except:
-            f = Font(frame,weight = weightVar.get())
+            if weightVar.get() == ITALIC:
+                f = Font(frame,family = familyVar.get(),slant = weightVar.get(),size = sizeVar.get())
+            else:
+                f = Font(frame,family = familyVar.get(),weight = weightVar.get(),size = sizeVar.get())
             text.configure(font = f)
 
 
     def sizeslen(evend = None):
         try:
             f = Font(frame,size = sizeVar.get())
-            if tag:
-                text.tag_add('big',SEL_FIRST,SEL_LAST)
-                text.tag_config('big',font = f)
-            else:
-                text.tag_config('big',font = f)
+            text.tag_add('big',SEL_FIRST,SEL_LAST)
+            text.tag_config('big',font = f)
         except:
             f = Font(frame,size = sizeVar.get())
             text.configure(font = f)
@@ -88,6 +88,7 @@ def New__(name = '',title = 'Untitled'):
                         )))))
             if notebook.select() == '':
                 root.destroy()
+            root.update()
             zt.after(100,ztl)
         except TclError:
             pass
@@ -146,7 +147,12 @@ def New__(name = '',title = 'Untitled'):
             try:
                 return d.index(wordd)
             except:
-                return ''
+                for i in word:
+                    if i in dict2:
+                        pass
+                    else:
+                        return ''
+                return 's'
         text.tag_remove('Error','1.0',END)
         textwords = text.get('1.0',END)
         chars = [']', '·', '：', '》', '>', 
@@ -166,10 +172,12 @@ def New__(name = '',title = 'Untitled'):
         textwords = textwords.split()
         for word in textwords:
             try:
+                
                 if (not getindex(word) and  not getindex(word.lower()) and not int(word)):
                     pos = text.search(word,start,END)
                     text.tag_add('Error',pos,"%s+%dc"%(pos,len(word)))
                     pos = '%s+%dc'%(pos,len(word))
+
             except:
                 if (not getindex(word) and  not getindex(word.lower())):
                     pos = text.search(word,start,END)
@@ -222,34 +230,66 @@ def New__(name = '',title = 'Untitled'):
         notebook.forget(notebook.select())
 
 
-    
+    def LnOrNone(event = None):
+        if lnVar.get() == 1:
+            text.configure(wrap = 'char')
+        else:
+            text.configure(wrap = 'none')
 
+    def color_b(event = None):
+        from tkinter import colorchooser
+        fileName = colorchooser.askcolor(title = '背景颜色')
+        if fileName[0] == None and fileName[1] == None:
+            return None
+        def col(t):
+            return '#%02X%02X%02X' %(int(t[0]), int(t[1]), int(t[2]))
+        text.configure(bg = col(fileName[0]))
+        lebel_b.configure(background = col(fileName[0]))
+    def color_f(event = None):
+        from tkinter import colorchooser
+        fileName = colorchooser.askcolor(title = '文字颜色')
+        if fileName[0] == None and fileName[1] == None:
+            return None
+        def col(t):
+            return '#%02X%02X%02X' %(int(t[0]), int(t[1]), int(t[2]))
+        text.configure(fg =  col(fileName[0]))
+        lebel_f.configure(background =  col(fileName[0]))
+    def color_cursor(event = None):
+        from tkinter import colorchooser
+        fileName = colorchooser.askcolor(title = '光标颜色')
+        if fileName[0] == None and fileName[1] == None:
+            return None
+        def col(t):
+            return '#%02X%02X%02X' %(int(t[0]), int(t[1]), int(t[2]))
+        text.configure(insertbackground =  col(fileName[0]))
+        lebel_c.configure(background =  col(fileName[0]))
     #toolbox
     fr = Frame(toll)
-    from tkinter import Button
-
-    savebutton = Button(fr,image = saveimage,compound = TOP,text = 'save',command = save)
+    from tkinter import Label
+    
+    from tkinter.ttk import Button
+    savebutton = Button(fr,image = saveimage,compound = TOP,text = 'save',command = save,width = 6)
     savebutton.pack(side = LEFT)
 
-    savebutton = Button(fr,image = saveasimage,compound = TOP,text = 'save as',command = saveasButton)
+    savebutton = Button(fr,image = saveasimage,compound = TOP,text = 'save as',command = saveasButton,width = 6)
     savebutton.pack(side = LEFT)
 
-    new_file = Button(fr,text = 'new file',command = newfile,image = saveimage2,compound = TOP)
+    new_file = Button(fr,text = 'new file',command = newfile,image = saveimage2,compound = TOP,width = 6)
     new_file.pack(side = LEFT)
 
-    openfileButton = Button(fr,text = 'open',command = Openfile,image = openimage,compound = TOP)
+    openfileButton = Button(fr,text = 'open',command = Openfile,image = openimage,compound = TOP,width = 6)
     openfileButton.pack(side = LEFT)
 
-    from tkinter.ttk import Button
     familyVar = StringVar(frame)
     Family = tuple(families(root))
-    Family = list(Family)
-    combo = Combobox(toll,textvariable = familyVar,value = Family)
-    familyVar.set(Family[0])
+    Familyss = list(Family)
+    Familyss.sort()
+    combo = Combobox(toll,textvariable = familyVar,value = Familyss)
+    familyVar.set(Familyss[0])
     combo.bind('<<ComboboxSelected>>',famlis)
 
     weightVar = StringVar(frame)
-    weightFamly = ("normal","bold")
+    weightFamly = ("normal","bold","normal",ITALIC)
     weightVar.set(weightFamly[0])
     wei = OptionMenu(toll,weightVar,*weightFamly,command = weight)
 
@@ -273,14 +313,30 @@ def New__(name = '',title = 'Untitled'):
     clenr = Button(toll,text = '清除标记',command = clean)
     
     close = Button(toll,text = '关闭',command = hide)
+
+    lnVar = IntVar()
+    yOrn = Checkbutton(toll,text = '自动换行',variable = lnVar,command = LnOrNone)
+    lnVar.set(1)
+
+    colors = Frame(toll)
+    from tkinter import Button
+    ff = Font(size = 8,family = '微软雅黑')
+    color_bg = Button(colors,text = '背景颜色',command = color_b,font = ff)
+    color_fg = Button(colors,text = '文字颜色',command = color_f,font = ff)
+    color_cur = Button(colors,text = '光标颜色',command = color_cursor,font = ff)
+    lebel_b = Label(colors,background = 'white')
+    lebel_f = Label(colors,background = 'black')
+    lebel_c = Label(colors,background = 'black')
+    
+
 #文本框
     sb = Scrollbar(frame)
     sb.pack(side="right", fill="y")
     
-    zt = Label(frame,text = (' '*(root.winfo_screenwidth()-3000))+'ln:1 co:0',background = 'white',foreground = 'black')
-    zt.pack(fill ='both')
+    zt = Label(frame,text = 'ln:1 co:0',background = 'white',foreground = 'black',justify = LEFT,anchor = 'nw')
+    zt.pack(fill ='both',anchor = 'nw')
 
-    text = Text(frame,undo = True,height = 45,yscrollcommand=sb.set,wrap = 'none',insertofftime = 500,insertontime= 500)
+    text = Text(frame,undo = True,height = 45,wrap = 'char',yscrollcommand=sb.set,insertofftime = 500,insertontime= 500)
     text.pack(fill = BOTH,expand = TRUE)
     sb.config(command=text.yview)
 
@@ -305,7 +361,41 @@ def New__(name = '',title = 'Untitled'):
     F.grid(row = 0,column = 5,columnspan = 2,sticky = W+E,padx = 5,pady = 2)
     jianc.grid(row = 1,column = 4,columnspan = 2)
     clenr.grid(row = 1,column = 6)
-    close.grid(row = 0,column = 7,rowspan = 2,sticky = W+E+N+S)
+    close.grid(row = 0,column = 7,sticky = W+E+N+S,pady = 5)
+    yOrn.grid(row = 1,column = 7,sticky = W+E+N+S,pady = 5)
+    colors.grid(row = 0,column = 8,rowspan = 2,pady = 5)
+    color_bg.grid(row = 0,column = 9,sticky = W+E+N+S,pady = 5)
+    color_fg.grid(row = 0,column = 10,sticky = W+E+N+S,pady =5)
+    color_cur.grid(row = 0,column = 11,sticky = W+E+N+S,pady = 5)
+    lebel_b.grid(row = 1,column = 9,sticky = W+E+N+S,pady = 5)
+    lebel_f.grid(row = 1,column = 10,sticky = W+E+N+S,pady = 5)
+    lebel_c.grid(row = 1,column = 11,sticky = W+E+N+S,pady = 5)
+
+    main_menu = Menu(root)
+    filemenu = Menu(main_menu)
+    filemenu.add_command(label = "New file",command = newfile)
+    filemenu.add_command(label = "Open",command = Openfile)
+    filemenu.add_command(label = "Save",command = save)
+    filemenu.add_command(label = "Save as..",command = saveasButton)
+    main_menu.add_cascade(label = 'File',menu = filemenu)
+    bianjmenu = Menu(main_menu)
+    bianjmenu.add_command(label = "Undo",command = ondo)
+    bianjmenu.add_command(label = "Redo",command = redo)
+    bianjmenu.add_separator()
+    bianjmenu.add_command(label = "Cut",command = cut)
+    bianjmenu.add_command(label = "Copy",command = copy)
+    bianjmenu.add_command(label = "Paste",command = paste)
+    main_menu.add_cascade(label = 'Edit',menu = bianjmenu)
+    optionmenu = Menu(main_menu)
+    optionmenu.add_command(label = "Background color",command = color_b)
+    optionmenu.add_command(label = "Text color",command = color_f)
+    optionmenu.add_command(label = "Cursor color",command = color_cursor)
+    optionmenu.add_separator()
+    optionmenu.add_checkbutton(label = "Auto wrap",command = LnOrNone,variable = lnVar)
+    optionmenu.add_command(label = "Check",command = check)
+    optionmenu.add_command(label = "Clean tag",command = clean)
+    main_menu.add_cascade(label = 'Options',menu = optionmenu)
+    root.config(menu = main_menu)
     ztl()
 #创建页签对象
 New__()
