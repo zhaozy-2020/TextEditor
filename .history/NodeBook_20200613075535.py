@@ -6,7 +6,7 @@ import subprocess
 
 #窗口
 root = Tk()
-root.title('TextEditor(English)')
+root.title('文本编辑器')
 root.iconbitmap('textEer.ico')
 root.geometry('1200x600+0+0')
 
@@ -25,11 +25,10 @@ saveasimage = PhotoImage(file = 'saveas.gif')
 openimage = PhotoImage(file = 'open.gif')
 upimage = PhotoImage(file = 'done.gif')
 doneimage = PhotoImage(file = 'up.gif')
-jingya_image = PhotoImage(file='./image_by_表情/尴尬.gif')
 
 itr = 0
 def New__(name = '',title = 'Untitled'):
-    global dicts,saveimage,saveimage2,itr,openimage,upimage,doneimage,dict2,jingya_image
+    global dicts,saveimage,saveimage2,itr,openimage,upimage,doneimage,dict2
     frame = Frame(root)
     filename = title
     notebook.add(frame,text = filename)
@@ -248,7 +247,7 @@ def New__(name = '',title = 'Untitled'):
 
     def color_b(event = None):
         from tkinter import colorchooser
-        fileName = colorchooser.askcolor(title = 'Background Color')
+        fileName = colorchooser.askcolor(title = '背景颜色')
         if fileName[0] == None and fileName[1] == None:
             return None
         def col(t):
@@ -259,7 +258,7 @@ def New__(name = '',title = 'Untitled'):
 
     def color_f(event = None):
         from tkinter import colorchooser
-        fileName = colorchooser.askcolor(title = 'Text Color')
+        fileName = colorchooser.askcolor(title = '文字颜色')
         if fileName[0] == None and fileName[1] == None:
             return None
         def col(t):
@@ -270,7 +269,7 @@ def New__(name = '',title = 'Untitled'):
 
     def color_cursor(event = None):
         from tkinter import colorchooser
-        fileName = colorchooser.askcolor(title = 'Cursor Color')
+        fileName = colorchooser.askcolor(title = '光标颜色')
         if fileName[0] == None and fileName[1] == None:
             return None
         def col(t):
@@ -279,6 +278,24 @@ def New__(name = '',title = 'Untitled'):
         lebel_c.configure(background =  col(fileName[0]))
 
 
+    def bq(event = None):
+        keys = {'[':']',
+                '{':'}',
+                '(':')',
+                '"':'"',
+                "'":"'"}
+        if event.char in ['[','{','(','"',"'"]:
+            print(text.index(INSERT))
+            text.insert(text.index(INSERT)+'1c',keys[event.char])
+            text.delete("%s+1c" %"insert" , "insert")
+            
+    is_Bengin = True
+    def bqgjz(event = None):
+        nonlocal is_Bengin
+        if is_Bengin:
+            text.unbind('<Key>',bqgjz)
+            is_Bengin = False
+            text.bind('<Return>',bqgjz)
 
     #toolbox
     fr = Frame(toll)
@@ -321,33 +338,33 @@ def New__(name = '',title = 'Untitled'):
     dong = Button(toll,image = doneimage,command = redo)
 
     F = Entry(toll)
-    L = Label(toll,text = 'Find')
+    L = Label(toll,text = '查找')
     F.bind('<Return>',fand)
 
-    jianc = Button(toll,text = 'Check',command = check)
+    jianc = Button(toll,text = '检查',command = check)
     
     
-    clenr = Button(toll,text = 'Clear',command = clean)
+    clenr = Button(toll,text = '清除标记',command = clean)
     
-    close = Button(toll,text = 'Close',command = hide)
+    close = Button(toll,text = '关闭',command = hide)
 
     lnVar = IntVar()
-    yOrn = Checkbutton(toll,text = 'Auto Wrap',variable = lnVar,command = LnOrNone)
+    yOrn = Checkbutton(toll,text = '自动换行',variable = lnVar,command = LnOrNone)
     lnVar.set(1)
 
     colors = Frame(toll)
     from tkinter import Button
     ff = Font(size = 8,family = '微软雅黑')
-    color_bg = Button(colors,text = 'BackGround Color',command = color_b,font = ff)
-    color_fg = Button(colors,text = 'Text Color',command = color_f,font = ff)
-    color_cur = Button(colors,text = 'CursorColor',command = color_cursor,font = ff)
+    color_bg = Button(colors,text = '背景颜色',command = color_b,font = ff)
+    color_fg = Button(colors,text = '文字颜色',command = color_f,font = ff)
+    color_cur = Button(colors,text = '光标颜色',command = color_cursor,font = ff)
     lebel_b = Label(colors,background = 'white')
     lebel_f = Label(colors,background = 'black')
     lebel_c = Label(colors,background = 'black')
 
     
 #文本框
-    zt = Label(frame,text = 'ln:1 co:0',background = 'blue',foreground = 'black')
+    zt = Label(frame,text = 'ln:1 co:0',background = 'white',foreground = 'black',justify = RIGHT)
     zt.pack(fill ='both',anchor = 'w',side = 'bottom')
     #放置文本框的容器
     TheTextFrame = Frame(frame)
@@ -355,9 +372,7 @@ def New__(name = '',title = 'Untitled'):
     sb = Scrollbar(TheTextFrame)
     sb.pack(side="right", fill="y")
 
-    text = Text(TheTextFrame,undo = True,height = 45,wrap = 'char',yscrollcommand=sb.set,insertofftime = 1000,insertontime= 1000)
-    text.image_create(END,image = jingya_image)
-    text.insert(END,'\n')
+    text = Text(TheTextFrame,undo = True,height = 45,wrap = 'char',yscrollcommand=sb.set,insertofftime = 500,insertontime= 500)
     text.pack(fill = BOTH,expand = TRUE)
     sb.config(command=text.yview)
 
@@ -368,10 +383,15 @@ def New__(name = '',title = 'Untitled'):
     text.insert(END,name)
 
     popopmenu = Menu(text,tearoff = False)
-    popopmenu.add_command(label = 'copy',command = copy)
-    popopmenu.add_command(label = 'cut',command = cut)
-    popopmenu.add_command(label = 'paste',command = paste)
+    popopmenu.add_command(label = '复制',command = copy)
+    popopmenu.add_command(label = '剪贴',command = cut)
+    popopmenu.add_command(label = '贴粘',command = paste)
+    popopmenu.add_separator()
+    popopmenu.add_command(lebel = '')
+    text.image_create(END,)
     text.bind('<Button-3>',pop)
+
+    text.bind('<Any-KeyPress>',bq)
 
     #布局
     fr.grid(row = 0,rowspan =2,sticky = W+E+N+S,padx = 5,pady = 2)
@@ -426,6 +446,13 @@ def New__(name = '',title = 'Untitled'):
     main_menu.add_cascade(label = 'Options',menu = optionmenu)
 
     root.config(menu = main_menu)
+    # s = Style()
+    # s.configure('Ss-ss',background = 'red')
+    # from tkinter.ttk import Menubutton
+    # a = Menubutton(root,text = 'sss')
+    # a.config(style = 'Ss-ss')
+    # a.config(menu = main_menu)
+    # a.pack()
     ztl()
 #创建页签对象
 New__()
